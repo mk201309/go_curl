@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  golang-coreui:
+    # image: golang:1.14.0
+    build:
+      context: .
+    container_name: ${PROJECT_NAME}
+    restart: always
+    # ports:
+    #   - 8080:8080
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME} # 專案名稱
+    working_dir: /go/src/${PROJECT_NAME}
+    volumes:
+      - .:/go/src/${PROJECT_NAME}
+      - ${GO_MOD_PATH}:/go/pkg/mod
+      - ./supervisor.ini:/etc/supervisor.d/${PROJECT_NAME}.ini # 掛載 supervisor 起服務規則
+    labels:
+      - "traefik.http.routers.golang-coreui.rule=Host(`coreui.local.com`)"
+      - "traefik.http.services.golang-coreui.loadbalancer.server.port=8080"
+    networks:
+      - web_service
+    command: "/usr/bin/supervisord -c /etc/supervisord.conf"
+
+networks:
+  web_service:
+    external: true
