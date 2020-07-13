@@ -8,8 +8,9 @@ import (
 )
 
 type getRequest struct {
-	Url    string            `json:"url" validate:"required" `
-	Header map[string]string `json:"header" validate:"required"`
+	Url    string                 `json:"url" validate:"required" `
+	Header map[string]string      `json:"header" validate:"required"`
+	Params map[string]interface{} `json:"params"`
 }
 
 type postRequest struct {
@@ -45,7 +46,7 @@ func Get(c *gin.Context) {
 		return
 	}
 
-	resp, err := GetCurl(req.Url, req.Header)
+	resp, err := GetCurl(req.Url, req.Header, req.Params)
 	if err != nil {
 		c.JSON(http.StatusOK, fail(err))
 		return

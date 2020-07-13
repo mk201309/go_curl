@@ -17,7 +17,7 @@ services:
       - ${GO_MOD_PATH}:/go/pkg/mod
       - ./supervisor.ini:/etc/supervisor.d/${PROJECT_NAME}.ini # 掛載 supervisor 起服務規則
     labels:
-      - "traefik.http.routers.golang-coreui.rule=Host(`coreui.local.com`)"
+      - "traefik.http.routers.golang-coreui.rule=Host(`coreui.local.com`) && PathPrefix(`/api{regex:$$|/.*}`)"
       - "traefik.http.services.golang-coreui.loadbalancer.server.port=8080"
     networks:
       - web_service

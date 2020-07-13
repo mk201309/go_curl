@@ -26,10 +26,7 @@ func ApiIns(notify string) *ApiService {
 }
 
 // GetCurl
-func GetCurl(url string, header map[string]string) (data interface{}, apiErr error) {
-
-	// 組參數
-	param := map[string]interface{}{}
+func GetCurl(url string, header map[string]string, param map[string]interface{}) (data interface{}, apiErr error) {
 
 	// 執行
 	content, apiErr := sendGet(url, header, param)
@@ -51,7 +48,7 @@ func GetCurl(url string, header map[string]string) (data interface{}, apiErr err
 func PostCurl(url string, header map[string]string, param map[string]interface{}) (data interface{}, apiErr error) {
 
 	// 執行
-	content, apiErr := sendPost(url, header, param, true)
+	content, apiErr := sendPost(url, header, param, false)
 
 	if apiErr != nil {
 		fmt.Printf("%+v\n", apiErr)

@@ -17,9 +17,12 @@ func LoadRouter(r *gin.Engine) {
 		})
 	})
 
-	r.POST("/get", service.Get)
-	r.POST("/post", service.Post)
-	r.POST("/put", service.Put)
-	r.POST("/delete", service.Delete)
+	api := r.Group("/api")
+	{
+		api.POST("/get", service.Get)
+		api.POST("/post", service.Post)
+		api.POST("/put", service.Put)
+		api.POST("/delete", service.Delete)
+	}
 
 }
